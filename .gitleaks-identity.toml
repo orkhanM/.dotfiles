@@ -1,0 +1,104 @@
+# Identity strings, not credentials. Keeps my email, account name, employer's
+# AWS account and internal hostnames out of a public repo.
+#
+#   gitleaks dir --config .gitleaks-identity.toml --no-banner
+#
+# Every rule matches by *class*, never by literal value: listing the actual
+# strings here would re-commit the things we're keeping out.
+#
+# No [extend] on purpose. gitleaks' default allowlist silently drops any
+# finding containing "/home/", which kills the hardcoded-home-dir rule, and
+# its stopword list can swallow others. So this config inherits nothing and
+# every exception below is explicit.
+#
+# Note: gitleaks uses Go's RE2, which has no lookahead. Exceptions go in a
+# [rules.allowlist] block, not a negative lookahead in the pattern.
+
+title = "dotfiles identity"
+
+[allowlist]
+description = "global exclusions"
+paths = [
+  '''\.git/''',
+  '''nvim/\.config/nvim/lazy-lock\.json''',
+  '''kitty/\.config/kitty/kitty\.d/theme\.conf''',
+]
+
+# --- hardcoded home directories -------------------------------------------
+# an absolute /Users/<name> or /home/<name> leaks the account name and breaks
+# on every other machine. use $HOME.
+[[rules]]
+id = "hardcoded-home-dir"
+description = "hardcoded home directory (use $HOME)"
+regex = '''/(?:Users|home)/[a-zA-Z][a-zA-Z0-9._-]{1,31}'''
+tags = ["identity"]
+
+  [rules.allowlist]
+  regexes = [
+    '''/Users/admin''',      # tart VM guest account
+    '''/Users/runner''',     # CI runners
+    '''/home/\$''',          # Dockerfile's ${USERNAME}
+    '''/Users/\$''',
+  ]
+
+# --- email addresses -------------------------------------------------------
+# identity belongs in ~/.gitconfig.local, not a tracked file.
+[[rules]]
+id = "email-address"
+description = "email address (use .gitconfig.local)"
+regex = '''[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,24}'''
+tags = ["identity"]
+
+  [rules.allowlist]
+  regexes = [
+    '''@example\.(?:com|org|net)''',   # documentation placeholders
+    '''^git@''',                       # ssh remote syntax, not an address
+    '''noreply''',
+  ]
+
+# --- aws account ids -------------------------------------------------------
+# not a credential, but it names infrastructure. belongs in work.zsh.
+[[rules]]
+id = "aws-account-id"
+description = "AWS account id (use $AWS_ACCOUNT_ID)"
+regex = '''(?:arn:aws[a-z-]*:[a-z0-9-]*:[a-z0-9-]*:|ecr\.|^|[^0-9A-Za-z])([0-9]{12})(?:\.dkr\.ecr|:|\b)'''
+secretGroup = 1
+tags = ["identity"]
+
+  [rules.allowlist]
+  regexes = ['''0{12}''']   # the 000000000000 placeholder in work.zsh.example
+
+# --- private hostnames -----------------------------------------------------
+# Deny-by-default: an internal domain can't be spotted by shape, so instead
+# every host this repo legitimately fetches from is listed here and anything
+# else trips. Adding a tool means adding its download host.
+[[rules]]
+id = "non-public-hostname"
+description = "hostname not on the known-public list (internal infra?)"
+regex = '''https?://([a-zA-Z0-9][a-zA-Z0-9.-]*\.[a-zA-Z]{2,24})'''
+secretGroup = 1
+tags = ["identity"]
+
+  # regexTarget defaults to the secret, which secretGroup pins to the
+  # captured hostname, so these anchor cleanly against the host alone.
+  [rules.allowlist]
+  regexes = [
+    '''(?:^|\.)github\.com''',
+    '''(?:^|\.)githubusercontent\.com''',
+    '''(?:^|\.)example\.(?:com|org|net)''',
+    '''(?:^|\.)k8s\.io''',
+    '''(?:^|\.)helm\.sh''',
+    '''(?:^|\.)astral\.sh''',
+    '''(?:^|\.)bun\.sh''',
+    '''(?:^|\.)rustup\.rs''',
+    '''(?:^|\.)go\.dev''',
+    '''(?:^|\.)tart\.run''',
+    '''(?:^|\.)yubico\.com''',
+    '''(?:^|\.)kovidgoyal\.net''',
+    '''(?:^|\.)schemastore\.org''',
+    '''(?:^|\.)vercel\.app''',
+    '''(?:^|\.)ghcr\.io''',
+    '''(?:^|\.)gnu\.org''',
+    '''(?:^|\.)anthropic\.com''',
+    '''(?:^|\.)claude\.(?:com|ai)''',
+  ]

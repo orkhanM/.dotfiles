@@ -1,0 +1,11 @@
+# local overrides, each with a committed .example
+zsh/.config/zsh/secrets.zsh
+zsh/.config/zsh/work.zsh
+zsh/.config/zsh/local.zsh
+git/.gitconfig.local
+ssh/.ssh/config.local
+
+__pycache__/
+*.pyc
+
+TODO.md

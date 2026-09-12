@@ -1,0 +1,5 @@
+# default is dark-bg which doesn't work well with transparency
+--color dark
+
+# Only use to browse
+--disable-delete

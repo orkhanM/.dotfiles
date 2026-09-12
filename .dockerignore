@@ -1,0 +1,15 @@
+# docker's build context is the filesystem, not git, so gitignored files are
+# NOT skipped. the Dockerfile does `ADD zsh/ zsh/`, which without this would
+# bake a real secrets.zsh into an image layer.
+.git
+.git-crypt
+
+# local overrides (mirrors .gitignore)
+zsh/.config/zsh/secrets.zsh
+zsh/.config/zsh/work.zsh
+zsh/.config/zsh/local.zsh
+git/.gitconfig.local
+ssh/.ssh/config.local
+
+__pycache__/
+*.pyc

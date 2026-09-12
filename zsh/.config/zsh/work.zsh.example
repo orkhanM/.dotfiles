@@ -1,0 +1,34 @@
+# copy to ~/.config/zsh/work.zsh. gitignored, sourced by .zshrc if present.
+#
+# work helpers. account ids, role names and internal hostnames aren't
+# secrets, but they name infra, so they go in a variable instead of inline.
+
+export AWS_ACCOUNT_ID="000000000000"
+export AWS_REGION="us-east-1"
+
+function ecr-auth() {
+  aws ecr get-login-password --region "$AWS_REGION" \
+    | docker login --username AWS --password-stdin \
+      "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
+}
+
+function elevate_prod_kubeconfig() {
+  local cluster="${1:-prod}"
+  aws eks update-kubeconfig \
+    --name "$cluster" \
+    --alias "$cluster" \
+    --user-alias "${cluster}-admin" \
+    --role-arn "arn:aws:iam::${AWS_ACCOUNT_ID}:role/AdminRole"
+}
+
+function aws_gopass() {
+  gopass totp -o "$(aws configure get gopass)" | aws-mfa
+}
+
+# completions for work tools that only ship a bash one. .zshrc sources this
+# file after bashcompinit for exactly this reason -- sourcing one earlier
+# fails with "command not found: compdef".
+# [ -r "$HOME/.local/share/bash_completion/completions/tool.bash" ] && \
+#   source "$HOME/.local/share/bash_completion/completions/tool.bash"
+
+# [ -d "$HOME/.internal-tool/bin" ] && export PATH="$HOME/.internal-tool/bin:$PATH"

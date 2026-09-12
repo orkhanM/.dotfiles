@@ -1,0 +1,15 @@
+# copy to ~/.config/zsh/local.zsh. gitignored, sourced by .zshrc if present.
+#
+# PATH for tools I installed by hand, so .zshrc never points at something
+# `make all` didn't install. also where to move the lines tool installers
+# append to ~/.zshrc, since that's a symlink into this repo and their
+# hardcoded paths would otherwise get committed.
+#
+# guard each one so a missing dir is harmless.
+
+# [ -d "$HOME/bin" ] && export PATH="$HOME/bin:$PATH"
+# [ -d "$HOME/.opencode/bin" ] && export PATH="$HOME/.opencode/bin:$PATH"
+# [ -d "$HOME/.istioctl/bin" ] && export PATH="$HOME/.istioctl/bin:$PATH"
+
+# [ -f "$HOME/google-cloud-sdk/path.zsh.inc" ] && . "$HOME/google-cloud-sdk/path.zsh.inc"
+# [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ] && . "$HOME/google-cloud-sdk/completion.zsh.inc"

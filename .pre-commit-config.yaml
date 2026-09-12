@@ -1,0 +1,28 @@
+# install with `make hooks`. scans staged changes only, so it stays fast.
+#
+# language: system means these use the gitleaks that `make devtools` installed
+# rather than pre-commit fetching its own copy. one version to reason about,
+# and it works offline.
+#
+# two gitleaks passes because the configs need different allowlists: see the
+# header of .gitleaks-identity.toml.
+repos:
+  - repo: local
+    hooks:
+      - id: gitleaks-credentials
+        name: scan staged changes for credentials
+        entry: gitleaks git --staged --redact --no-banner --config .gitleaks.toml
+        language: system
+        pass_filenames: false
+
+      - id: gitleaks-identity
+        name: scan staged changes for identity strings
+        entry: gitleaks git --staged --redact --no-banner --config .gitleaks-identity.toml
+        language: system
+        pass_filenames: false
+
+      - id: no-local-override-files
+        name: block the gitignored override files from being committed
+        entry: scripts/check-no-overrides.sh
+        language: system
+        pass_filenames: false

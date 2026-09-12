@@ -1,0 +1,10 @@
+---
+# Global clang-format style, picked up by clangd for any file under $HOME
+# (a closer project-level .clang-format still takes precedence).
+BasedOnStyle: LLVM
+# Disable the 80-column limit so lines are never auto-wrapped/joined.
+ColumnLimit: 0
+# spaces inside braced init lists ({ "main" } not {"main"}). careful: a
+# trailing comma still explodes the list one-per-line, which is hardcoded
+# with no flag. drop the comma or use // clang-format off/on.
+Cpp11BracedListStyle: false

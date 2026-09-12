@@ -1,0 +1,20 @@
+# copy to ~/.gitconfig.local and fill in. gitignored.
+
+[user]
+  email = you@example.com
+  name = Your Name
+
+# not committed: would break commits for anyone cloning this without my key
+# [commit]
+#   gpgsign = true
+
+# [init]
+#   templateDir = ~/.git-template
+
+# rewrite a private forge's https urls to ssh
+# [url "git@git.internal.example.com:"]
+#   insteadOf = https://git.internal.example.com/
+
+# work email for everything under ~/work/
+# [includeIf "gitdir:~/work/"]
+#   path = ~/.gitconfig.work

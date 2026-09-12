@@ -1,0 +1,11 @@
+# identity, signing keys and private URL rewrites go in ~/.gitconfig.local
+# (see the .example). git ignores a missing include, so a clone works as-is.
+# include.path expands ~ but not env vars. first, so the rest can override.
+[include]
+  path = ~/.gitconfig.local
+
+[init]
+  defaultBranch = main
+
+[pull]
+  rebase = true

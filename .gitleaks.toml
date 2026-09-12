@@ -1,0 +1,24 @@
+# Credential scanning. gitleaks' built-in ruleset: aws keys, github/slack/
+# stripe tokens, private keys, jwts, and a few hundred more.
+#
+#   gitleaks git --no-banner            # whole history
+#   gitleaks dir --no-banner            # working tree, incl. gitignored files
+#
+# Identity strings (emails, home paths, account ids, internal hosts) are in
+# .gitleaks-identity.toml instead, because they need a config WITHOUT
+# useDefault: gitleaks' default allowlist drops any finding containing
+# "/home/", which silently broke the hardcoded-home-dir rule when the two
+# were combined.
+
+title = "dotfiles credentials"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "global exclusions"
+paths = [
+  '''\.git/''',
+  '''nvim/\.config/nvim/lazy-lock\.json''',          # plugin commit shas
+  '''kitty/\.config/kitty/kitty\.d/theme\.conf''',   # upstream hex palette
+]
