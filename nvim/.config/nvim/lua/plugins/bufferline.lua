@@ -18,7 +18,7 @@ return {
   },
   config = function()
     require('bufferline').setup {
-      highlights = require('catppuccin.groups.integrations.bufferline').get(),
+      highlights = require('catppuccin.special.bufferline').get_theme(),
       options = {
         separator_style = 'padded_slant',
         diagnostics = 'nvim_lsp',
