@@ -174,6 +174,17 @@ return {
     vim.lsp.config('terraformls', {
       cmd = { 'terraform-ls', 'serve' },
       filetypes = { 'terraform', 'terraform-vars', 'tf', 'tfvars', 'hcl' },
+      -- lspconfig's bundled terraformls config calls vim.lsp.codelens.enable,
+      -- which is 0.12+. On 0.11 that's nil and every attach throws
+      -- ON_ATTACH_ERROR, so override the hook with a version that works on
+      -- both. Drop this once nvim is 0.12.
+      on_attach = function(_, bufnr)
+        if vim.lsp.codelens.enable then
+          vim.lsp.codelens.enable(true, { bufnr = bufnr })
+        else
+          vim.lsp.codelens.refresh { bufnr = bufnr }
+        end
+      end,
       settings = {
         terraform = {
           terraform = { path = 'terraform' },
