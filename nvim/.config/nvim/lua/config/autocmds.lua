@@ -58,3 +58,13 @@ vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter', 'FileType' }, {
     vim.fn.matchadd('Todo', [[\<\(TODO\|FIXME\|FIX\|HACK\|WARN\|WARNING\|XXX\|NOTE\|INFO\|PERF\|OPTIM\|TEST\)\>]])
   end,
 })
+
+-- <C-w>w into a floating terminal lands in normal mode and lazygit sees none
+-- of my keys
+vim.api.nvim_create_autocmd('WinEnter', {
+  callback = function()
+    if vim.bo.buftype == 'terminal' and vim.api.nvim_win_get_config(0).relative ~= '' then
+      vim.cmd.startinsert()
+    end
+  end,
+})
