@@ -5,3 +5,7 @@
 # and the asset name embeds both the version and the distro, so tracking
 # "latest" would gain nothing today and break on the next naming change.
 WEZTERM_VERSION := 20240203-110809-5046fc22
+
+# minor only, uv picks the patch. with no version uv reuses any python it
+# already manages, however old, instead of fetching the latest.
+PYTHON_VERSION := 3.14

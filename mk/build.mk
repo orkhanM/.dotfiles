@@ -164,6 +164,14 @@ uv: $(UV) ## Install uv
 $(UV):
 	curl -fsSL https://astral.sh/uv/install.sh | sh
 
+# --- python (unversioned, for scripts) ---
+# pyenv used to put `python` on PATH, brew and apt only ship python3.
+# --default links python and python3 into ~/.local/bin, ahead of both.
+.PHONY: python
+python: | uv ## Install Python via uv as the default python/python3
+	@$(HOME)/.local/bin/python --version 2>/dev/null | grep -q ' $(PYTHON_VERSION)\.' || \
+		$(UV) python install $(PYTHON_VERSION) --default --preview-features python-install-default
+
 # --- ptpython (Python REPL) ---
 # --with catppuccin[pygments] registers the catppuccin-* Pygments styles inside
 # ptpython's own venv; the config selects catppuccin-mocha.
@@ -181,4 +189,4 @@ $(BUN):
 
 # --- Aggregate ---
 .PHONY: tools
-tools: neovim kitty-terminal wezterm rust tpm oh-my-zsh zsh-plugins zsh-completions-dir go fnm node nerd-font uv ptpython bun ## Install all build-from-source tools
+tools: neovim kitty-terminal wezterm rust tpm oh-my-zsh zsh-plugins zsh-completions-dir go fnm node nerd-font uv python ptpython bun ## Install all build-from-source tools

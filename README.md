@@ -26,7 +26,7 @@ the full target list.
 | `make stow/<pkg>` | Stow one package, e.g. `make stow/nvim` |
 | `make unstow` / `make restow` | Remove / re-create symlinks. Use `restow` after deleting files from a package, so stale links go too |
 | `make packages` | System packages via `apt` or `brew` |
-| `make tools` | From-source builds: neovim, kitty, rust, go, fnm, node, bun, uv |
+| `make tools` | From-source builds: neovim, kitty, rust, go, fnm, node, bun, uv, python |
 | `make devtools` | CLI tools from upstream releases: kubectl, kubectx, helm, stern, krew, argocd, termshark, lazygit, gh, yubico, gitleaks, pre-commit |
 | `make k8s` | Just the Kubernetes subset of the above |
 | `make hooks` | Install the pre-commit hook (run by `make all`) |

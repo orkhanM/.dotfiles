@@ -22,6 +22,7 @@ TOOLS=(
   "bun:bun --version"
   "lazygit:lazygit --version 2>&1 | head -1"
   "uv:uv --version"
+  "python:python --version 2>&1"
   "ptpython:ptpython --version 2>&1"
 )
 
