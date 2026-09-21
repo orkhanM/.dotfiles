@@ -79,6 +79,9 @@ export DIRENV_LOG_FORMAT=""
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
+# Claude code in tmux breaks w/ fancy tui mode
+export CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN=1
+
 # for tools that only ship a .bash completion. no compinit call here, oh-my-zsh
 # already did it above.
 autoload -Uz bashcompinit && bashcompinit
