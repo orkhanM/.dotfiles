@@ -6,6 +6,10 @@ STOW_EXCLUDES := mk scripts tart
 # filter dirs, so README.md leaks into the package list
 STOW_PACKAGES := $(filter-out $(STOW_EXCLUDES),$(patsubst %/,%,$(shell cd "$(STOW_DIR)" && ls -d */ 2>/dev/null)))
 
+# dirs apps write their own state into. Pre-created so stow links the files
+# inside instead of folding the whole dir into the repo
+STOW_NOFOLD := $(HOME)/.claude
+
 # stow all packages, backing up conflicts.
 #
 # The message shapes differ by stow version and both are in play: brew ships
@@ -23,6 +27,7 @@ STOW_PACKAGES := $(filter-out $(STOW_EXCLUDES),$(patsubst %/,%,$(shell cd "$(STO
 # cross-package conflict still fails loudly instead of being moved aside.
 .PHONY: stow
 stow: ## Stow all dotfiles packages
+	@mkdir -p $(STOW_NOFOLD)
 	@backup_dir="$(HOME)/.dotfiles.bak/$$(date +%s)"; \
 	for pkg in $(STOW_PACKAGES); do \
 		conflicts=$$(stow -n -v -t $(HOME) -d $(STOW_DIR) $$pkg 2>&1 | grep -E "^  \* (existing target is not owned by stow|existing target is neither a link nor a directory|cannot stow .* over existing target .* since neither a link nor a directory|cannot stow non-directory .* over existing directory target)" || true); \
@@ -46,6 +51,7 @@ stow: ## Stow all dotfiles packages
 	done
 
 stow/%: ## Stow a specific package (e.g., make stow/nvim)
+	@mkdir -p $(STOW_NOFOLD)
 	@stow -v -t $(HOME) -d $(STOW_DIR) $*
 
 .PHONY: unstow
@@ -59,9 +65,11 @@ unstow/%: ## Unstow a specific package
 
 .PHONY: restow
 restow: ## Restow all packages
+	@mkdir -p $(STOW_NOFOLD)
 	@for pkg in $(STOW_PACKAGES); do \
 		stow -v -R -t $(HOME) -d $(STOW_DIR) $$pkg; \
 	done
 
 restow/%: ## Restow a specific package
+	@mkdir -p $(STOW_NOFOLD)
 	@stow -v -R -t $(HOME) -d $(STOW_DIR) $*

@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "modelSettings": {
+    "claude-opus-5-5": {
+      "effortLevel": "xhigh"
+    }
+  },
+  "editorMode": "vim",
+  "feedbackDrafts": "off",
+  "enabledPlugins": {
+    "clangd-lsp@claude-plugins-official": true
+  }
+}
