@@ -30,6 +30,7 @@ post-stow: | stow ## Run post-stow setup (nvim plugins, tmux plugins, zsh defaul
 	nvim --headless '+Lazy! restore' +qa 2>/dev/null || true
 	$(HOME)/.tmux/plugins/tpm/scripts/install_plugins.sh 2>/dev/null || true
 	$(MAKE) ptpython-config-link
+	$(MAKE) gpg-pinentry
 	$(MAKE) zsh-default
 
 # --- ptpython config location (macOS) ---
@@ -43,6 +44,25 @@ ptpython-config-link: ## Link ptpython config into the macOS appdirs location
 ifeq ($(IS_MACOS),Darwin)
 	@mkdir -p "$(PTPYTHON_APPDIR)"
 	@ln -sfn "$(HOME)/.config/ptpython/config.py" "$(PTPYTHON_APPDIR)/config.py"
+else
+	@true
+endif
+
+# --- gpg pinentry (macOS) ---
+# brew's gnupg falls back to the curses pinentry, which can't prompt when git
+# signs from an editor or GUI. point gpg-agent at pinentry-mac instead. not
+# stowed: ~/.gnupg holds keys/state and the path is mac-only. leaves an
+# existing pinentry-program line alone. no-op on linux.
+GPG_AGENT_CONF := $(HOME)/.gnupg/gpg-agent.conf
+
+.PHONY: gpg-pinentry
+gpg-pinentry: brew/gnupg brew/pinentry-mac ## Point gpg-agent at pinentry-mac (macOS)
+ifeq ($(IS_MACOS),Darwin)
+	@mkdir -p "$(HOME)/.gnupg" && chmod 700 "$(HOME)/.gnupg"
+	@if ! grep -qs '^pinentry-program' "$(GPG_AGENT_CONF)"; then \
+		echo "pinentry-program $(BREW_PREFIX)/bin/pinentry-mac" >> "$(GPG_AGENT_CONF)"; \
+		gpgconf --kill gpg-agent 2>/dev/null || true; \
+	fi
 else
 	@true
 endif

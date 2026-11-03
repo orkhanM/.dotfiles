@@ -18,3 +18,7 @@ fi
 unset brew_bins
 
 export PATH
+
+# gpg needs the tty for pinentry fallbacks; pinentry-mac is set up by
+# `make gpg-pinentry`
+export GPG_TTY=$(tty)
