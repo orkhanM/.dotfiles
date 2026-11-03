@@ -1,6 +1,10 @@
 # brew and cask pattern rules, idempotent and cached for speed
 ifeq ($(IS_MACOS),Darwin)
 
+# Newer brew asks "Do you want to proceed with the installation? [y/n]"
+# whenever it has a TTY; skip that so `make` runs unattended.
+export HOMEBREW_NO_ASK := 1
+
 $(BREW):
 	/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 

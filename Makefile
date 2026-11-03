@@ -71,10 +71,10 @@ macos-packages: brew/cmake     brew/gettext    brew/sqlite     brew/ncurses
 macos-packages: brew/xz        brew/readline
 macos-packages: brew/gnu-sed   brew/gnu-tar    brew/grep       brew/findutils
 macos-packages: brew/coreutils brew/go         brew/fnm        brew/fd
-macos-packages: brew/tldr      brew/glow       brew/bat        brew/bash
+macos-packages: brew/tlrc      brew/glow       brew/bat        brew/bash
 macos-packages: brew/curl      brew/gawk       brew/gnu-which  brew/gzip
 macos-packages: brew/jq        brew/make       brew/moreutils  brew/unzip
-macos-packages: brew/watch     brew/ncdu
+macos-packages: brew/watch     brew/ncdu       brew/tree-sitter-cli
 macos-packages: cask/font-ubuntu-mono-nerd-font
 macos-packages: cask/yubico-authenticator
 
