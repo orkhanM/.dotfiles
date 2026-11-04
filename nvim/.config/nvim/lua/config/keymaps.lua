@@ -63,19 +63,3 @@ VirtualTextToggler.toggle = function()
 end
 
 vim.api.nvim_set_keymap('n', '<Leader>v', '<Cmd>lua VirtualTextToggler.toggle()<CR>', { silent = true, noremap = true })
-
--- copilot toggle logic
-CopilotToggler = {}
-CopilotToggler.enabled = false
-
-CopilotToggler.toggle = function()
-  CopilotToggler.enabled = not CopilotToggler.enabled
-  require 'notify'('Toggle copilot ' .. tostring(CopilotToggler.enabled), 'info')
-  if CopilotToggler.enabled then
-    vim.cmd 'Copilot enable'
-  else
-    vim.cmd 'Copilot disable'
-  end
-end
-
-vim.api.nvim_set_keymap('n', '<Leader>C', '<Cmd>lua CopilotToggler.toggle()<CR>', { silent = true, noremap = true })
