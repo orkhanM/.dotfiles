@@ -77,6 +77,7 @@ macos-packages: brew/jq        brew/make       brew/moreutils  brew/unzip
 macos-packages: brew/watch     brew/ncdu       brew/tree-sitter-cli
 macos-packages: brew/gnupg     brew/pinentry-mac
 macos-packages: cask/font-ubuntu-mono-nerd-font
+macos-packages: cask/font-jetbrains-mono
 macos-packages: cask/yubico-authenticator
 
 .PHONY: packages
