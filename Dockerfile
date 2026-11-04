@@ -40,7 +40,6 @@ ADD --chown=${USERNAME}:${USERNAME} mk/stow.mk mk/stow.mk
 ADD --chown=${USERNAME}:${USERNAME} scripts/ scripts/
 ADD --chown=${USERNAME}:${USERNAME} ghostty/ ghostty/
 ADD --chown=${USERNAME}:${USERNAME} git/ git/
-ADD --chown=${USERNAME}:${USERNAME} kitty/ kitty/
 ADD --chown=${USERNAME}:${USERNAME} ncdu/ ncdu/
 ADD --chown=${USERNAME}:${USERNAME} nvim/ nvim/
 ADD --chown=${USERNAME}:${USERNAME} ssh/ ssh/

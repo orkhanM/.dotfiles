@@ -20,5 +20,4 @@ description = "global exclusions"
 paths = [
   '''\.git/''',
   '''nvim/\.config/nvim/lazy-lock\.json''',          # plugin commit shas
-  '''kitty/\.config/kitty/kitty\.d/theme\.conf''',   # upstream hex palette
 ]

@@ -21,7 +21,6 @@ description = "global exclusions"
 paths = [
   '''\.git/''',
   '''nvim/\.config/nvim/lazy-lock\.json''',
-  '''kitty/\.config/kitty/kitty\.d/theme\.conf''',
 ]
 
 # --- hardcoded home directories -------------------------------------------
@@ -94,7 +93,6 @@ tags = ["identity"]
     '''(?:^|\.)go\.dev''',
     '''(?:^|\.)tart\.run''',
     '''(?:^|\.)yubico\.com''',
-    '''(?:^|\.)kovidgoyal\.net''',
     '''(?:^|\.)schemastore\.org''',
     '''(?:^|\.)vercel\.app''',
     '''(?:^|\.)ghcr\.io''',

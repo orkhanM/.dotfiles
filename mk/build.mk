@@ -20,25 +20,6 @@ $(NVIM): $(if $(IS_LINUX),| linux-packages)
 	cd /tmp/neovim && sudo make install
 	sudo rm -rf /tmp/neovim
 
-# --- Kitty terminal ---
-# kitty's installer drops an app bundle in /Applications on macOS but a plain
-# tree under ~/.local/kitty.app on Linux, so the binaries to link differ.
-ifeq ($(IS_MACOS),Darwin)
-KITTY  := /Applications/kitty.app/Contents/MacOS/kitty
-KITTEN := /Applications/kitty.app/Contents/MacOS/kitten
-else
-KITTY  := $(HOME)/.local/kitty.app/bin/kitty
-KITTEN := $(HOME)/.local/kitty.app/bin/kitten
-endif
-
-.PHONY: kitty-terminal
-kitty-terminal: ## Install kitty terminal
-	@test -x $(KITTY) || \
-		curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin launch=n
-	@mkdir -p $(HOME)/.local/bin
-	@ln -sf $(KITTY) $(HOME)/.local/bin/kitty
-	@ln -sf $(KITTEN) $(HOME)/.local/bin/kitten
-
 # --- Rust ---
 .PHONY: rust
 rust: $(RUSTC) ## Install Rust via rustup
@@ -207,4 +188,4 @@ $(BUN):
 
 # --- Aggregate ---
 .PHONY: tools
-tools: neovim kitty-terminal wezterm ghostty rust tpm oh-my-zsh zsh-plugins zsh-completions-dir go fnm node nerd-font uv python ptpython bun ## Install all build-from-source tools
+tools: neovim wezterm ghostty rust tpm oh-my-zsh zsh-plugins zsh-completions-dir go fnm node nerd-font uv python ptpython bun ## Install all build-from-source tools
