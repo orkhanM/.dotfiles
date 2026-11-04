@@ -38,6 +38,7 @@ RUN make devtools
 # Layer 6: Stow configs (change often, so added last)
 ADD --chown=${USERNAME}:${USERNAME} mk/stow.mk mk/stow.mk
 ADD --chown=${USERNAME}:${USERNAME} scripts/ scripts/
+ADD --chown=${USERNAME}:${USERNAME} ghostty/ ghostty/
 ADD --chown=${USERNAME}:${USERNAME} git/ git/
 ADD --chown=${USERNAME}:${USERNAME} kitty/ kitty/
 ADD --chown=${USERNAME}:${USERNAME} ncdu/ ncdu/

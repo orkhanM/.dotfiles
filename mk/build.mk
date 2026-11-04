@@ -155,6 +155,24 @@ else
 wezterm: cask/wezterm ## Install WezTerm
 endif
 
+# --- Ghostty ---
+# no upstream linux package. ghostty's docs point ubuntu/debian at the
+# community ghostty-ubuntu .deb, whose installer picks the asset for the
+# distro and arch, then installs it with apt. it downloads into the current
+# dir, hence the cd.
+ifeq ($(IS_LINUX),Linux)
+GHOSTTY := /usr/bin/ghostty
+
+.PHONY: ghostty
+ghostty: $(GHOSTTY) ## Install Ghostty
+
+$(GHOSTTY):
+	cd /tmp && /bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/mkasberg/ghostty-ubuntu/HEAD/install.sh)"
+else
+.PHONY: ghostty
+ghostty: cask/ghostty ## Install Ghostty
+endif
+
 # --- uv (Python package/tool manager) ---
 UV := $(HOME)/.local/bin/uv
 
@@ -189,4 +207,4 @@ $(BUN):
 
 # --- Aggregate ---
 .PHONY: tools
-tools: neovim kitty-terminal wezterm rust tpm oh-my-zsh zsh-plugins zsh-completions-dir go fnm node nerd-font uv python ptpython bun ## Install all build-from-source tools
+tools: neovim kitty-terminal wezterm ghostty rust tpm oh-my-zsh zsh-plugins zsh-completions-dir go fnm node nerd-font uv python ptpython bun ## Install all build-from-source tools

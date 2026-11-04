@@ -1,0 +1,66 @@
+# Ghostty config, kept functionally in step with wezterm/.config/wezterm/wezterm.lua.
+# Validate after editing:  ghostty +validate-config
+# Reload a running ghostty: cmd+shift+, (macOS) / ctrl+shift+, (linux)
+
+# --- History ---
+# wezterm counts lines (1,000,000); ghostty caps scrollback in bytes. A row
+# costs roughly 8 bytes per column, so ~1.6GB holds about 1M rows of a 200
+# column window. It's a ceiling, not an allocation, so memory only grows as
+# the scrollback actually fills.
+scrollback-limit = 1600000000
+
+# --- Font ---
+# wezterm's font is left at its default, which is JetBrains Mono at line
+# height 1.0. Ghostty's built-in default is also JetBrains Mono, with Nerd
+# Font symbols, so only the size needs setting.
+font-size = 12
+
+# --- Colors ---
+theme = Catppuccin Mocha
+
+# --- Appearance ---
+# wezterm: hide_tab_bar_if_only_one_tab. macOS native tabs already hide with
+# one tab; this covers the GTK build on linux.
+window-show-tab-bar = auto
+window-padding-x = 0
+window-padding-y = 0
+# wezterm pads the leftover space at the bottom/right only, as this does
+window-padding-balance = false
+
+# --- Transparency ---
+# wezterm: window_background_opacity = 1.0, text_background_opacity = 1.0,
+# macos_window_background_blur = 40. Blur only shows once opacity drops.
+background-opacity = 1
+background-opacity-cells = false
+background-blur = 40
+
+# --- Keys ---
+# wezterm's macOS default: left option sends Alt (meta), right option still
+# composes accented characters.
+macos-option-as-alt = left
+
+# Opt-Left / Opt-Right send Alt-b / Alt-f, matching Terminal.app word motion
+keybind = alt+left=esc:b
+keybind = alt+right=esc:f
+
+# wezterm's default tab bindings, which ghostty doesn't bind on its own
+keybind = ctrl+page_up=previous_tab
+keybind = ctrl+page_down=next_tab
+keybind = ctrl+shift+page_up=move_tab:-1
+keybind = ctrl+shift+page_down=move_tab:1
+
+# free cmd+shift+up/down for the Window menu's Fill / Center (set in
+# scripts/macos-shortcuts.sh). ghostty binds cmd+shift+up/down to
+# jump_to_prompt by default, and a bound key never reaches the menu. the
+# cmd+up/down pair goes too: ghostty binds those to jump_to_prompt as well,
+# and mission control takes them system-wide, so the bindings were dead
+# anyway. menu shortcut changes may need a full quit (cmd+q), not a reload.
+keybind = super+arrow_up=unbind
+keybind = super+arrow_down=unbind
+keybind = super+shift+arrow_up=unbind
+keybind = super+shift+arrow_down=unbind
+
+# --- Rendering ---
+# wezterm's max_fps = 120 and front_end = WebGpu/HighPerformance have no
+# equivalent here and need none: ghostty renders on Metal (macOS) or OpenGL
+# (linux) and syncs to the display's own refresh rate, ProMotion included.

@@ -17,6 +17,7 @@ TOOLS=(
   "node:node --version"
   "kitty:kitty --version 2>&1"
   "wezterm:wezterm --version 2>&1"
+  "ghostty:ghostty --version 2>&1 | head -1"
   "kubectl:kubectl version --client 2>/dev/null | head -1"
   "helm:helm version --short 2>/dev/null"
   "bun:bun --version"
