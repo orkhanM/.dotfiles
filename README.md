@@ -30,6 +30,7 @@ the full target list.
 | `make devtools` | CLI tools from upstream releases: kubectl, kubectx, helm, stern, krew, argocd, termshark, lazygit, gh, yubico, gitleaks, pre-commit |
 | `make k8s` | Just the Kubernetes subset of the above |
 | `make hooks` | Install the pre-commit hook (run by `make all`) |
+| `make macos-shortcuts` | Window tiling and Mission Control keyboard shortcuts via `defaults` (run by `make all`). No-op on linux |
 | `make doctor` | Check installed tools, and that every package is stowed from this repo. Exits non-zero on a problem |
 
 ## Local overrides

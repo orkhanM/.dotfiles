@@ -31,6 +31,7 @@ post-stow: | stow ## Run post-stow setup (nvim plugins, tmux plugins, zsh defaul
 	$(HOME)/.tmux/plugins/tpm/scripts/install_plugins.sh 2>/dev/null || true
 	$(MAKE) ptpython-config-link
 	$(MAKE) gpg-pinentry
+	$(MAKE) macos-shortcuts
 	$(MAKE) zsh-default
 
 # --- ptpython config location (macOS) ---
@@ -66,6 +67,11 @@ ifeq ($(IS_MACOS),Darwin)
 else
 	@true
 endif
+
+# --- keyboard shortcuts (macOS) ---
+.PHONY: macos-shortcuts
+macos-shortcuts: ## Apply keyboard shortcuts via defaults (macOS)
+	@$(CURDIR)/scripts/macos-shortcuts.sh
 
 # --- Doctor (diagnostics) ---
 .PHONY: doctor
